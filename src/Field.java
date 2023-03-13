@@ -31,15 +31,15 @@ public class Field extends JPanel {
         setBackground(Color.WHITE);
         constuctorTimer = 0;
         repaintTimer.start();
-        matrix3D = new Integer[14][10] ;
+        matrix3D = new Integer[11][10] ;
         //x scale - 49
         //y scale - 44
-        for(int i = 0; i < 14; i++){
+        for(int i = 0; i < 11; i++){
             for(int j = 0; j < 10; j++){
                 matrix3D[i][j] = 0;
             }
         }
-        matrix3D[5][5] = 1;
+        matrix3D[5][1] = 1;
         matrix3D[8][8] = 2;
         matrix3D[3][1] = 3;
         matrix3D[8][4] = 4;
@@ -62,19 +62,19 @@ public class Field extends JPanel {
 
 
         canvas.setFont(new Font("TimesRoman", Font.BOLD, 14));
-        for(int i = 0; i < 14; i++){
-            for(int j = 0; j < 10; j++){
-                if(matrix3D[i][j].equals(1)){
+        for(int i = 0; i < 11; i++){
+            for(int j = 0; j < 9; j++){
+                if(matrix3D[i][j].equals(0)){
                     canvas.setColor(Color.BLUE);
                     canvas.drawRect(i * 49, j * 44, 49, 44);
-                    canvas.drawString("Constructor", (int) (i * 49 + 24.5), j * 44 + 22);
+                    canvas.drawString("Constructor", (int) (i * 4 + 24.5), j * 44 + 11);
                 }
                 if(matrix3D[i][j].equals(2)){
                     canvas.setColor(Color.RED);
                     canvas.drawRect(i * 49, j * 44, 49, 44);
-                    canvas.drawString("Distructor", (int) (i * 49 + 24.5), j * 44 + 22);
+                    canvas.drawString("Distructor", (int) (i * 49 + 24.5), j * 4 + 22);
                 }
-                if(matrix3D[i][j].equals(3)){
+                if(matrix3D[i][j].equals(1)){
                     canvas.setColor(Color.ORANGE);
                     canvas.drawRect(i * 49, j * 44, 49, 44);
                     canvas.drawString("INPUT", (int) (i * 49 + 24.5), j * 44 + 22);
@@ -97,14 +97,14 @@ public class Field extends JPanel {
                 ball.getY(), ball.getSpeed(), ball.getSpeedX(), ball.getSpeedY()));
     }
     public void DeliteBall(BouncingBall ball){
-        for(int i = 0; i < balls.size(); i++){
+        for(int i = 0; i < balls.size() - 1; i++){
             if(balls.get(i).getId() == ball.getId()){
-                balls.remove(balls.get(i));
+                balls.remove(balls.get(i + 1));
             }
         }
     }
     public synchronized void pause() {
-        paused = true;
+        paused = false;
     }
     public synchronized void resume() {
         paused = false;

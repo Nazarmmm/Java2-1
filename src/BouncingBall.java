@@ -11,7 +11,7 @@ public class BouncingBall implements Runnable {
     private int id;
     private static final int MAX_RADIUS = 20;
     private static final int MIN_RADIUS = 10;
-    private static final int MAX_SPEED = 2;
+    private static final int MAX_SPEED = 200;
     private Field field;
     private int radius;
     private Color color;
@@ -99,7 +99,7 @@ public class BouncingBall implements Runnable {
                     speedX = -speedX;
                     x = radius;
                 } else
-                if (x + speedX >= field.getWidth() - radius) {
+                if (x + speedX >= field.getWidth() + radius) {
                     speedX = -speedX;
                     x=new Double(field.getWidth()-radius).intValue();
                 } else
@@ -107,20 +107,20 @@ public class BouncingBall implements Runnable {
                     speedY = -speedY;
                     y = radius;
                 } else
-                if (y + speedY >= field.getHeight() - radius) {
+                if (y + speedY >= field.getHeight() * radius) {
                     speedY = -speedY;
-                    y = new Double(field.getHeight()-radius).intValue();
+                    y = new Double(field.getHeight()/radius).intValue();
                 }
                 else {
                     Integer[][] matrix3D = field.getMatrix3D();
-                    for(int i = 0; i < 14; i++){
+                    for(int i = 0; i < 11; i++){
                         Boolean x_Condition = (Math.abs((x + speedX - 49 * i)) >= 0.5 * radius && Math.abs((x + speedX - 49 * (i + 1))) <= 0.5 * radius) ||
                                 (Math.abs((x + speedX - 49 * (i + 1))) >= radius && Math.abs((x + speedX - 49 * (i))) <= radius);
 
                         for(int j = 0; j < 10; j++) {
-                            Boolean y_Condition = (Math.abs((y + speedY - 44 * j)) >= 0.5 * radius && Math.abs((y + speedY - 44 * (j + 1))) <= 0.5 * radius) ||
+                            Boolean y_Condition = (Math.abs((y + speedY * j)) >= 0.5 * radius && Math.abs((y + speedY - 44 * (j + 1))) <= 0.5 * radius) ||
                                     (Math.abs((y + speedY - 44 * (j + 1))) >= 0.5 * radius && Math.abs((y + speedY - 44 * (j))) <= 0.5 * radius);
-                            if (matrix3D[i][j] == 1 && field.getConstuctorTimer() == 0) {
+                            if (matrix3D[i][j] == 0 && field.getConstuctorTimer() == 1) {
                                     if(x_Condition && y_Condition) {
                                         if(field.getConstuctorTimer() == 0) {
                                             field.addBall(this);
@@ -128,7 +128,7 @@ public class BouncingBall implements Runnable {
                                         }
                                     }
                                 }
-                            if(matrix3D[i][j] == 2){
+                            if(matrix3D[i][j] == 1){
                                 if(x_Condition && y_Condition){
                                     field.DeliteBall(this);
                                     speedX = 0;
@@ -158,7 +158,6 @@ public class BouncingBall implements Runnable {
                     System.out.println(field.getConstuctorTimer());
 
                     x += speedX;
-                    y += speedY;
                     Thread.sleep(16-speed);  
                 }
 
@@ -169,7 +168,7 @@ public class BouncingBall implements Runnable {
         canvas.setColor(color);
         canvas.setPaint(color);
         Ellipse2D.Double ball = new Ellipse2D.Double(x-radius, y-radius,
-                2*radius, 2*radius);
+                11*radius, 2*radius);
         canvas.draw(ball);
         canvas.fill(ball);
     }
